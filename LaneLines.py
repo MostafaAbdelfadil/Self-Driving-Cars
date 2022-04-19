@@ -58,7 +58,72 @@ class LaneLines:
         return self.nonzerox[condx&condy], self.nonzeroy[condx&condy]
 
 
+    def find_lane_pixels(self, img):
+        """Find lane pixels from a binary warped image.
 
+        Parameters:
+            img (np.array): A binary warped image
+
+        Returns:
+            leftx (np.array): x coordinates of left lane pixels
+            lefty (np.array): y coordinates of left lane pixels
+            rightx (np.array): x coordinates of right lane pixels
+            righty (np.array): y coordinates of right lane pixels
+            out_img (np.array): A RGB image that use to display result later on.
+        """
+
+        #make sure image is single hannel, its shape = (height, width)
+        assert(len(img.shape) == 2)
+
+        # Create an output 3-channel image to draw on and visualize the result
+        out_img = np.dstack((img, img, img))
+
+        histogram = hist(img)
+
+        #image midpoint (horizontally)
+        midpoint = histogram.shape[0]//2
+
+        #getting base of the left lane window and the right lane window on the horizontal axis
+        leftx_base = np.argmax(histogram[:midpoint])
+        rightx_base = np.argmax(histogram[midpoint:]) + midpoint
+
+        # Current position to be update later for each window in nwindows
+        leftx_current = leftx_base
+        rightx_current = rightx_base
+        y_current = img.shape[0] + self.window_height//2
+
+        # Create empty lists to reveice left and right lane pixel
+        leftx, lefty, rightx, righty = [], [], [], []
+
+        # Step through the windows one by one
+        for _ in range(self.nwindows):
+
+            #move window upwards
+            y_current -= self.window_height
+
+            #get the center of the two windows
+            center_left = (leftx_current, y_current)
+            center_right = (rightx_current, y_current)
+
+            #for each window, get the nonzero pixels in them since they belong to a lane
+            good_left_x, good_left_y = self.pixels_in_window(center_left, self.margin, self.window_height)
+            good_right_x, good_right_y = self.pixels_in_window(center_right, self.margin, self.window_height)
+
+            # Append these indices to the lists
+            leftx.extend(good_left_x)
+            lefty.extend(good_left_y)
+            rightx.extend(good_right_x)
+            righty.extend(good_right_y)
+
+            #recentering the the window on the lane horizontally to deal with lane curvature
+            if len(good_left_x) > self.minpix:
+                leftx_current = np.int32(np.mean(good_left_x))
+            if len(good_right_x) > self.minpix:
+                rightx_current = np.int32(np.mean(good_right_x))
+
+        return leftx, lefty, rightx, righty, out_img
+    
+    
     def fit_poly(self, img):
         leftx, lefty, rightx, righty, out_img = self.find_lane_pixels(img)
       
