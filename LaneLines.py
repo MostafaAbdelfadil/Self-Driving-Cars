@@ -50,7 +50,9 @@ class LaneLines:
       
         self.extract_features(img)
         return self.fit_poly(img)
-
+    def pixels_in_window(self, center, margin, height):
+        topleft = (center[0]-margin, center[1]-height//2)
+        bottomright = (center[0]+margin, center[1]+height//2)
 
 
     def fit_poly(self, img):
