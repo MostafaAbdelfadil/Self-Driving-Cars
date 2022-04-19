@@ -16,11 +16,7 @@ class LaneLines:
         parameters (dict): Dictionary containing all parameters needed for the pipeline
         debug (boolean): Flag for debug/normal mode
     """
-    def forward(self, img):
-      
-        self.extract_features(img)
-        return self.fit_poly(img)
-
+   
     def __init__(self):
         """Init Lanelines.
 
@@ -41,6 +37,13 @@ class LaneLines:
         self.margin = 0
         # Mininum number of pixels found to recenter window
         self.minpix = 0
+
+    def forward(self, img):
+        #img (np.array): An binary image containing relevant pixels
+      
+        self.extract_features(img)
+        return self.fit_poly(img)
+
 
 
     def fit_poly(self, img):
