@@ -83,3 +83,14 @@ class LaneLines:
 
         left_fitx = self.left_fit[0]*ploty**2 + self.left_fit[1]*ploty + self.left_fit[2]
         right_fitx = self.right_fit[0]*ploty**2 + self.right_fit[1]*ploty + self.right_fit[2]    
+
+          # Visualization
+        for i, y in enumerate(ploty):
+            l = int(left_fitx[i])
+            r = int(right_fitx[i])
+            y = int(y)
+            cv2.line(out_img, (l, y), (r, y), (0, 255, 0))
+
+        lR, rR, pos = self.measure_curvature()
+
+        return out_img
