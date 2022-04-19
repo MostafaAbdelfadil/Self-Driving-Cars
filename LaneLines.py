@@ -53,6 +53,10 @@ class LaneLines:
     def pixels_in_window(self, center, margin, height):
         topleft = (center[0]-margin, center[1]-height//2)
         bottomright = (center[0]+margin, center[1]+height//2)
+        condx = (topleft[0] <= self.nonzerox) & (self.nonzerox <= bottomright[0])
+        condy = (topleft[1] <= self.nonzeroy) & (self.nonzeroy <= bottomright[1])
+        return self.nonzerox[condx&condy], self.nonzeroy[condx&condy]
+
 
 
     def fit_poly(self, img):
