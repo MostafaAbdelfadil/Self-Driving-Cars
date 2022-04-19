@@ -39,7 +39,14 @@ class LaneLines:
         self.minpix = 0
 
     def forward(self, img):
-        #img (np.array): An binary image containing relevant pixels
+        """Take a image and detect lane lines.
+
+        Parameters:
+            img (np.array): An binary image containing relevant pixels
+
+        Returns:
+            Image (np.array): An RGB image containing lane lines pixels and other details
+        """
       
         self.extract_features(img)
         return self.fit_poly(img)
