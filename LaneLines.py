@@ -159,3 +159,46 @@ class LaneLines:
         lR, rR, pos = self.measure_curvature()
 
         return out_img
+    
+    
+        def measure_curvature(self):
+        """
+        Find the lane curvature and the position of the car relative to the road.
+        Returns:
+        left_curverR (float): curvature of left lane in meters.
+        right_curverR (float): curvature of right lane in meters.
+        pos (float): position of car relative to the road in meters.
+        """
+        
+        #conversion from pixel to meter
+        ym = 30/720
+        xm = 3.7/700
+
+        #get a copy of polynomial coefficients
+        left_fit = self.left_fit.copy()
+        right_fit = self.right_fit.copy()
+
+        #evaluate curvature at location 700
+        y_eval = 700 * ym
+
+        """
+        Compute R_curve (radius of curvature)
+        polynomial is a function of y, x = f(y)
+        therefore the formula of radius of curvature R(y) = (1 + (dx/dy)**2)**(3/2) / abs(d2x/dy2)
+        dx/dy = 2*left_fit[0]*y + left_fit[1]
+        d2x/dy2 = 2*left_fit[0]
+        """
+        left_curveR =  ((1 + (2*left_fit[0] *y_eval + left_fit[1])**2)**1.5)  / np.absolute(2*left_fit[0])
+        right_curveR = ((1 + (2*right_fit[0]*y_eval + right_fit[1])**2)**1.5) / np.absolute(2*right_fit[0])
+
+        #position of left lane on horizontal axis
+        xl = np.dot(self.left_fit, [700**2, 700, 1])
+        #position of right lane on horizontal axis
+        xr = np.dot(self.right_fit, [700**2, 700, 1])
+        """
+        measuring distance between car and lane center
+        defined as midpoint of image - midpoint of distance between the two lanes in meters
+        """
+        pos = (1280//2 - (xl+xr)//2)*xm
+        
+        return left_curveR, right_curveR, pos 
