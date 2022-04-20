@@ -28,6 +28,9 @@ class LaneLines:
         self.left_fit = None
         self.right_fit = None
         self.binary = None
+        self.nonzero = None
+        self.nonzerox = None
+        self.nonzeroy = None
         self.clear_visibility = True
         self.dir = []
         self.left_curve_img = mpimg.imread('left_turn.png')
@@ -74,6 +77,21 @@ class LaneLines:
         condx = (topleft[0] <= self.nonzerox) & (self.nonzerox <= bottomright[0])
         condy = (topleft[1] <= self.nonzeroy) & (self.nonzeroy <= bottomright[1])
         return self.nonzerox[condx&condy], self.nonzeroy[condx&condy]
+    
+    def extract_features(self, img):
+        """ Extract features from a binary image
+
+        Parameters:
+            img (np.array): A binary image
+        """
+        self.img = img
+        # Height of of windows - based on nwindows and image shape
+        self.window_height = np.int(img.shape[0]//self.nwindows)
+
+        # Identify the x and y positions of all nonzero pixel in the image
+        self.nonzero = img.nonzero()
+        self.nonzerox = np.array(self.nonzero[1])
+        self.nonzeroy = np.array(self.nonzero[0])
 
 
     def find_lane_pixels(self, img):
