@@ -7,10 +7,10 @@ class PerspectiveTransformation:
                             (45, 720),     # bottom-left
                             (1200, 720),    # bottom-right
                             (770, 1200)])    # top-right
-        self.dst = np.float32([(100, 0),
-                            (100, 520),
-                            (1200, 840),
-                            (1100, 0)])
+        self.dst = np.float32([(100, 100),
+                            (100, 500),
+                            (1100, 740),
+                            (1100, 720)])
 
         self.M = cv2.getPerspectiveTransform(self.src, self.dst)
         self.M_inv = cv2.getPerspectiveTransform(self.dst, self.src)
