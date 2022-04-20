@@ -4,12 +4,12 @@ import numpy as np
 class PerspectiveTransformation:
     def __init__(self):
         self.src = np.float32([(500, 460),     # top-left
-                            (150, 720),     # bottom-left
+                            (45, 720),     # bottom-left
                             (1200, 720),    # bottom-right
-                            (770, 400)])    # top-right
+                            (770, 1200)])    # top-right
         self.dst = np.float32([(100, 0),
                             (100, 520),
-                            (1200, 720),
+                            (1200, 840),
                             (1100, 0)])
 
         self.M = cv2.getPerspectiveTransform(self.src, self.dst)
