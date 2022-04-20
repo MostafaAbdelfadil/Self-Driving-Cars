@@ -12,6 +12,10 @@ from LaneLines import *
 
 class FindLaneLines:
     def __init__(self):
+        self.thresholding = Thresholding()
+        self.transform = PerspectiveTransformation()
+        self.lanelines = LaneLines()
+
         
     def forward(self, img):
 
