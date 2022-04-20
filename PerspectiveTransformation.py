@@ -3,14 +3,14 @@ import numpy as np
 
 class PerspectiveTransformation:
     def __init__(self):
-        self.src = np.float32([(500, 460),     # top-left
-                            (45, 720),     # bottom-left
+        self.src = np.float32([(550, 460),     # top-left
+                            (150, 720),     # bottom-left
                             (1200, 720),    # bottom-right
-                            (770, 1200)])    # top-right
-        self.dst = np.float32([(100, 100),
-                            (100, 500),
-                            (1100, 740),
-                            (1100, 720)])
+                            (770, 460)])    # top-right
+        self.dst = np.float32([(100, 0),
+                            (100, 720),
+                            (1100, 720),
+                            (1100, 0)])
 
         self.M = cv2.getPerspectiveTransform(self.src, self.dst)
         self.M_inv = cv2.getPerspectiveTransform(self.dst, self.src)
