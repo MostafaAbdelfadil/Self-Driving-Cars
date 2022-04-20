@@ -16,7 +16,7 @@ class LaneLines:
         parameters (dict): Dictionary containing all parameters needed for the pipeline
         debug (boolean): Flag for debug/normal mode
     """
-   
+
     def __init__(self):
         """Init Lanelines.
 
@@ -56,9 +56,10 @@ class LaneLines:
         Returns:
             Image (np.array): An RGB image containing lane lines pixels and other details
         """
-      
+    
         self.extract_features(img)
         return self.fit_poly(img)
+
     def pixels_in_window(self, center, margin, height):
         """ Return all pixel that in a specific window
 
@@ -162,7 +163,7 @@ class LaneLines:
     
     def fit_poly(self, img):
         leftx, lefty, rightx, righty, out_img = self.find_lane_pixels(img)
-      
+    
         if len(lefty) > 1500:
             self.left_fit = np.polyfit(lefty, leftx, 2)
         if len(righty) > 1500:
@@ -171,7 +172,7 @@ class LaneLines:
         # Generate x and y values for plotting
         maxy = img.shape[0] - 1
         miny = img.shape[0] // 3
- 
+
         if len(lefty):
             maxy = max(maxy, np.max(lefty))
             miny = min(miny, np.min(lefty))
@@ -185,7 +186,7 @@ class LaneLines:
         left_fitx = self.left_fit[0]*ploty**2 + self.left_fit[1]*ploty + self.left_fit[2]
         right_fitx = self.right_fit[0]*ploty**2 + self.right_fit[1]*ploty + self.right_fit[2]    
 
-          # Visualization
+        # Visualization
         for i, y in enumerate(ploty):
             l = int(left_fitx[i])
             r = int(right_fitx[i])
@@ -264,11 +265,8 @@ class LaneLines:
 
         return out_img
     
-
-
-            
     
-        def measure_curvature(self):
+    def measure_curvature(self):
         """
         Find the lane curvature and the position of the car relative to the road.
         Returns:
