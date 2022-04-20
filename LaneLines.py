@@ -133,9 +133,9 @@ class LaneLines:
     def fit_poly(self, img):
         leftx, lefty, rightx, righty, out_img = self.find_lane_pixels(img)
       
-        if len(lefty) > 1200:
+        if len(lefty) > 1500:
             self.left_fit = np.polyfit(lefty, leftx, 2)
-        if len(righty) > 1200:
+        if len(righty) > 1500:
             self.right_fit = np.polyfit(righty, rightx, 2)
 
         # Generate x and y values for plotting
@@ -185,8 +185,8 @@ class LaneLines:
         if len(self.dir) > 10:
             self.dir.pop(0)
 
-        W = 300
-        H = 400
+        W = 400
+        H = 500
         widget = np.copy(out_img[:H, :W])
         widget //= 2
         widget[0,:] = [0, 0, 255]
@@ -209,6 +209,31 @@ class LaneLines:
         if direction == 'F':
             y, x = self.keep_straight_img[:,:,3].nonzero()
             out_img[y, x-100+W//2] = self.keep_straight_img[y, x, :3]
+
+        cv2.putText(out_img, msg, org=(10, 240), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=(255, 255, 255), thickness=2)
+        if direction in 'LR':
+            cv2.putText(out_img, curvature_msg, org=(10, 280), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=(255, 255, 255), thickness=2)
+
+        cv2.putText(
+            out_img,
+            "Good Lane Keeping",
+            org=(10, 400),
+            fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+            fontScale=1.2,
+            color=(0, 255, 0),
+            thickness=2)
+
+        cv2.putText(
+            out_img,
+            "Vehicle is {:.2f} m away from center".format(pos),
+            org=(10, 450),
+            fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+            fontScale=0.66,
+            color=(255, 255, 255),
+            thickness=2)
+
+        return out_img
+    
 
 
             
