@@ -57,8 +57,20 @@ class LaneLines:
         self.extract_features(img)
         return self.fit_poly(img)
     def pixels_in_window(self, center, margin, height):
+        """ Return all pixel that in a specific window
+
+        Parameters:
+            center (tuple): coordinate of the center of the window
+            margin (int): half width of the window
+            height (int): height of the window
+
+        Returns:
+            pixelx (np.array): x coordinates of pixels that lie inside the window
+            pixely (np.array): y coordinates of pixels that lie inside the window
+        """
         topleft = (center[0]-margin, center[1]-height//2)
         bottomright = (center[0]+margin, center[1]+height//2)
+
         condx = (topleft[0] <= self.nonzerox) & (self.nonzerox <= bottomright[0])
         condy = (topleft[1] <= self.nonzeroy) & (self.nonzeroy <= bottomright[1])
         return self.nonzerox[condx&condy], self.nonzeroy[condx&condy]
