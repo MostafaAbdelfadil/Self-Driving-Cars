@@ -20,3 +20,8 @@ class PerspectiveTransformation:
     def forward(self, img, img_size=(1280, 720), flags=cv2.INTER_LINEAR):
         
         return cv2.warpPerspective(img, self.M, img_size, flags=flags)
+
+
+    def backward(self, img, img_size=(1280, 720), flags=cv2.INTER_LINEAR):
+        
+        return cv2.warpPerspective(img, self.M_inv, img_size, flags=flags)
