@@ -162,6 +162,15 @@ class LaneLines:
     
     
     def fit_poly(self, img):
+        
+        """Find the lane line from an image and draw it.
+
+        Parameters:
+            img (np.array): a binary warped image
+
+        Returns:
+            out_img (np.array): a RGB image that have lane line drawn on that.
+        """
         leftx, lefty, rightx, righty, out_img = self.find_lane_pixels(img)
     
         if len(lefty) > 1500:
