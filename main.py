@@ -16,9 +16,12 @@ class FindLaneLines:
         self.transform = PerspectiveTransformation()
         self.lanelines = LaneLines()
 
-        
-    def forward(self, img):
 
+    def forward(self, img):
+        img = self.transform.forward(img)
+        img = self.thresholding.forward(img)
+        img = self.lanelines.forward(img)
+        img = self.transform.backward(img)
 
     def process_video(self, input_path, output_path):
         clip = VideoFileClip(input_path)
