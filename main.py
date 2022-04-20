@@ -1,17 +1,34 @@
+"""
+Lane Lines Detection pipeline
+
+Usage:
+    main.py [--video] INPUT_PATH OUTPUT_PATH 
+
+Options:
+
+-h --help                               show this screen
+--video                                 process video file instead of image
+"""
+
 import numpy as np
 import matplotlib.image as mpimg
 import cv2
 from docopt import docopt
 from IPython.display import HTML, Video
 from moviepy.editor import VideoFileClip
-from CameraCalibration import CameraCalibration
 from Thresholding import *
 from PerspectiveTransformation import *
 from LaneLines import *
 
 
 class FindLaneLines:
+    """ This class is for parameter tunning.
+
+    Attributes:
+        ...
+    """
     def __init__(self):
+        """ Init Application"""
         self.thresholding = Thresholding()
         self.transform = PerspectiveTransformation()
         self.lanelines = LaneLines()
