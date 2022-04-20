@@ -23,6 +23,10 @@ class FindLaneLines:
         img = self.lanelines.forward(img)
         img = self.transform.backward(img)
 
+        out_img = cv2.addWeighted(out_img, 1, img, 1, 0)
+        out_img = self.lanelines.plot(out_img)
+        return out_img
+
     def process_video(self, input_path, output_path):
         clip = VideoFileClip(input_path)
         out_clip = clip.fl_image(self.forward)
