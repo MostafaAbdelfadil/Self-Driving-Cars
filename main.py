@@ -23,7 +23,7 @@ class FindLaneLines:
         img = self.lanelines.forward(img)
         img = self.transform.backward(img)
 
-        out_img = cv2.addWeighted(out_img, 1, img, 1, 0)
+        out_img = cv2.addWeighted(out_img, 1, img, 0.6, 0)
         out_img = self.lanelines.plot(out_img)
         return out_img
 
