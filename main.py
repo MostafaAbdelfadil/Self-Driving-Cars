@@ -58,8 +58,7 @@ def main():
     findLaneLines = FindLaneLines()
     if args['--video']:
         findLaneLines.process_video(input, output)
-    else:
-        findLaneLines.process_image(input, output)
+   
 
 if __name__ == "__main__":
     main()
