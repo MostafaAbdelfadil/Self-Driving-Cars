@@ -35,6 +35,7 @@ class FindLaneLines:
 
 
     def forward(self, img):
+        out_img = np.copy(img)
         img = self.transform.forward(img)
         img = self.thresholding.forward(img)
         img = self.lanelines.forward(img)
