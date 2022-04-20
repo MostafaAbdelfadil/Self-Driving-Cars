@@ -2,12 +2,11 @@
 Lane Lines Detection pipeline
 
 Usage:
-    main.py [--video] INPUT_PATH OUTPUT_PATH 
+    main.py INPUT_PATH OUTPUT_PATH 
 
 Options:
 
 -h --help                               show this screen
---video                                 process video file instead of image
 """
 
 import numpy as np
@@ -56,8 +55,7 @@ def main():
     output = args['OUTPUT_PATH']
 
     findLaneLines = FindLaneLines()
-    if args['--video']:
-        findLaneLines.process_video(input, output)
+    findLaneLines.process_video(input, output)
    
 
 if __name__ == "__main__":
