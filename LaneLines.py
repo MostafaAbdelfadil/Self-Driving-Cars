@@ -41,11 +41,11 @@ class LaneLines:
         self.keep_straight_img = cv2.normalize(src=self.keep_straight_img, dst=None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8U)
         # HYPERPARAMETERS
         # Number of sliding windows
-        self.nwindows = 0
+        self.nwindows = 9
         # Width of the the windows +/- margin
-        self.margin = 0
+        self.margin = 100
         # Mininum number of pixels found to recenter window
-        self.minpix = 0
+        self.minpix = 50
 
     def forward(self, img):
         """Take a image and detect lane lines.
