@@ -4,6 +4,32 @@ import time
 import cv2
 import os
 
+# construct the argument parse and parse the arguments
+ap = argparse.ArgumentParser()
+ap.add_argument("-c", "--confidence", type=float, default=0.5,
+	help="minimum probability to filter weak detections")
+ap.add_argument("-t", "--threshold", type=float, default=0.3,
+	help="threshold when applying non-maxima suppression")
+ap.add_argument("-i", "--input", type=str)
+ap.add_argument("-o", "--output", type=str)
+args = vars(ap.parse_args())
+
+
+# load the COCO class labels our YOLO model was trained on
+labelsPath = os.path.sep.join(["coco.names"])
+LABELS = open(labelsPath).read().strip().split("\n")
+# initialize a list of colors to represent each possible class label
+np.random.seed(42)
+COLORS = np.random.randint(0, 255, size=(len(LABELS), 3),
+	dtype="uint8")
+
+# derive the paths to the YOLO weights and model configuration
+weightsPath = os.path.sep.join(["yolov3.weights"])
+configPath = os.path.sep.join(["yolov3.cfg"])
+# load our YOLO object detector trained on COCO dataset (80 classes)
+print("[INFO] loading YOLO from disk...")
+net = cv2.dnn.readNetFromDarknet(configPath, weightsPath)
+
 
 
 
@@ -82,3 +108,20 @@ def process(image):
 				0.5, color, 2)
 	#cv2.imwrite(os.path.join('frames/',str(cnt)+'.jpg'),image)
 	return image
+
+input = args["input"]
+output = args["output"]
+
+cap = cv2.VideoCapture(input)
+frame_width = int(cap.get(3))
+frame_height = int(cap.get(4))
+out = cv2.VideoWriter(output, cv2.VideoWriter_fourcc('M', 'J','P','G'), 25, (frame_width, frame_height))
+cap.get(3)
+while(True):
+	ret, frame = cap.read()
+	if not ret: break
+	frame = process(frame)
+	out.write(frame)
+
+cap.release()
+out.release()
