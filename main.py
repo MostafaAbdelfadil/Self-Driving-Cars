@@ -56,7 +56,6 @@ def main():
 
     findLaneLines = FindLaneLines()
     findLaneLines.process_video(input, output)
-   
 
 if __name__ == "__main__":
     main()
